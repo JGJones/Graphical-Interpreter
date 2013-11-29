@@ -125,9 +125,9 @@ public class Draw
 
 	}
 	
-	private class Execute
+	private class runCommand
 	{	
-		public void runCommand (String[] command)
+		public void Execute (String[] command)
 		{
 		//Validation check = this.new Validation();
 		//UserData file = this.new UserData();
@@ -288,16 +288,8 @@ public class Draw
 	}
 	}
 
-	public void processCommand (String[] command)
+	public void Execute (String[] command)
 	{
-		Execute run = this.new Execute();
-		if (command[0] == "load") 
-			{
-				run.runCommand(command);
-			}
-		else 
-		{
-			run.
-		}
+		
 	}
 }
