@@ -6,14 +6,26 @@ import java.util.Scanner;
 public class Draw 
 {
 	GraphicsScreen g = new GraphicsScreen();
-	Help helpcommand = new Help();
-	//	Validation check = new Validation();
-	// UserData load = new UserData();
-	int curX = 0, curY = 0; //this holds the current pen position
-
+	
+	private int curX, curY;
+	
+	private enum CommandKind {
+		MOVETO,
+		LINETO,
+		CIRCLE,
+		FILLCIRCLE,
+		PEN_COLOUR,
+		RECT,
+		FILLRECT,
+		HELP,
+		COMMANDS,
+		END,
+		LOAD,
+		CLEAR,
+	}
+	
 	private class UserData
 	{
-
 		public void load (String filename) throws FileNotFoundException 
 		{
 
@@ -131,6 +143,10 @@ public class Draw
 		{
 		//Validation check = this.new Validation();
 		//UserData file = this.new UserData();
+			
+			Validation check;
+			UserData file;
+			Help helpcommand = new Help();
 
 		switch (command[0].toLowerCase()) // run code based on what the first word is. If it's a valid command, it'll execute otherwise it's an error message
 		{
@@ -290,6 +306,15 @@ public class Draw
 
 	public void Execute (String[] command)
 	{
+		UserData fileio = this.new UserData();
+		Validation check = this.new Validation();
+		runCommand run = this.new runCommand();
+		
+
+		
+		
+		//validation checks
+		
 		
 	}
 }

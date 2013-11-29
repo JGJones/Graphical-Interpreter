@@ -64,7 +64,7 @@ public class PhotoShop {
 
 			} while (userCommand.length < 5 == false);
 			
-			execute.runCommand(processCommand); //Execute the 
+			execute.Execute(userCommand); //Execute the 
 
 
 		} while (command.toLowerCase().equals("end") == false); 
