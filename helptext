@@ -1,0 +1,104 @@
+moveto
+
+	moveTo <x> <y>
+	Moves the current pen position to the given <x> and <y> position.
+	Example moveTo 200 100
+	Integars are only allowed. 120 is OK, 120.5 is not allowed
+
+EOT
+
+lineto
+
+	lineTo <x> <y>
+	Draws a line from the current pen position to the given <x> and <y> position.
+	Following the command the pen position is updated so that it is positioned at the end of the drawn line.
+	Example lineTo 200 100
+	Integars are only allowed. 120 is OK, 120.5 is not allowed
+
+EOT
+
+circle
+
+	circle <r>
+	Draws a circle at the current pen position with a radius of <r>.
+	The pen position is unchanged following this command.
+	Example circle 200
+	Integars are only allowed. 120 is OK, 120.5 is not allowed
+
+EOT
+
+fillcircle
+
+	fillCircle <r>
+	Draws a filled circle at the current pen position with a radius of <r>,
+	filled with the current pen colour.
+	The pen position is unchanged following this command.
+	Example fillCircle 200
+	Integars are only allowed. 120 is OK, 120.5 is not allowed
+
+EOT
+
+rect
+	rect <width> <height>
+	Draws a rectangle at the current pen position with the given width and height
+	For a square, use the same values for width and height.
+	The pen position is unchanged following this command.
+	Example rect 200 100
+	Integars are only allowed. 120 is OK, 120.5 is not allowed
+
+EOT
+
+fillrect
+	fillRect <width> <height>
+	Draws a filled rectangle at the current pen position with the given width and height,
+	filled with the current pen colour.
+	For a square, use the same values for width and height.
+	The pen position is unchanged following this command.
+	Example fillRect 200 100
+	Integars are only allowed. 120 is OK, 120.5 is not allowed
+
+EOT
+
+pencolour
+	penColour <red> <green> <blue>
+	Set the colour value of the pen in RGB format. Numbers must be between 0-255
+	The pen position is unchanged following this command.
+	Example penColour 0 0 0 is black and penColour 255 0 0 is red
+	Integars are only allowed. 120 is OK, 120.5 is not allowed
+
+EOT
+
+penposition
+
+	penPosition
+	Returns the current pen position in x & y
+
+EOT
+
+clear
+
+	clear
+	Clears the drawing area and resets the pen position to 0, 0.
+	Anything put after the clear command on same line is ignored.
+
+EOT
+
+commands
+
+	commands
+	Lists the available commands within the console area.
+	Note this command does not effect the graphical display.
+
+EOT
+
+end
+
+	Type 'end' on its own to quit program. Does not end all life on planet.
+
+EOT
+
+default 
+
+	No help is available for '"+ secondWord + "'.
+	Please type 'commands' for a list of available commands that you can type
+	'help <command>' for details on that command.
