@@ -6,24 +6,24 @@ import java.util.Scanner;
 public class Draw 
 {
 	GraphicsScreen g = new GraphicsScreen();
-	
+
 	private int curX, curY;
-	
-	private enum CommandKind {
-		MOVETO,
-		LINETO,
-		CIRCLE,
-		FILLCIRCLE,
-		PEN_COLOUR,
-		RECT,
-		FILLRECT,
-		HELP,
-		COMMANDS,
-		END,
-		LOAD,
-		CLEAR,
-	}
-	
+
+	//	private enum CommandKind {
+	//		MOVETO,
+	//		LINETO,
+	//		CIRCLE,
+	//		FILLCIRCLE,
+	//		PEN_COLOUR,
+	//		RECT,
+	//		FILLRECT,
+	//		HELP,
+	//		COMMANDS,
+	//		END,
+	//		LOAD,
+	//		CLEAR,
+	//	}
+
 	private class UserData
 	{
 		public void load (String filename) throws FileNotFoundException 
@@ -61,7 +61,7 @@ public class Draw
 			s.close(); //close the scanner
 		}
 	}
-	
+
 	private class Validation 
 	{/*
 	 * 
@@ -136,17 +136,13 @@ public class Draw
 		}
 
 	}
-	
-	private class runCommand
-	{	
-		public void Execute (String[] command)
-		{
-		//Validation check = this.new Validation();
-		//UserData file = this.new UserData();
-			
-			Validation check;
-			UserData file;
-			Help helpcommand = new Help();
+
+
+	public void Execute (String[] command)
+	{
+		UserData fileio = this.new UserData();
+		Validation check = this.new Validation();
+		Help helpcommand = new Help();
 
 		switch (command[0].toLowerCase()) // run code based on what the first word is. If it's a valid command, it'll execute otherwise it's an error message
 		{
@@ -284,7 +280,7 @@ public class Draw
 
 			try
 			{
-				file.load(command[1]);
+				fileio.load(command[1]);
 			}catch (FileNotFoundException e)
 			{
 				System.out.println("Error 404! File not found! Make sure "+ command[1] +" does exist!");
@@ -300,21 +296,9 @@ public class Draw
 
 		}
 
-	
-	}
-	}
 
-	public void Execute (String[] command)
-	{
-		UserData fileio = this.new UserData();
-		Validation check = this.new Validation();
-		runCommand run = this.new runCommand();
-		
-
-		
-		
 		//validation checks
-		
-		
+
+
 	}
 }
