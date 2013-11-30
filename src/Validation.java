@@ -1,11 +1,7 @@
 
 public class Validation 
 {
-
 	
-	private class Params 
-	{
-		
 		public boolean paramCheck(String[] params, int maxparam)
 		{
 
@@ -32,15 +28,13 @@ public class Validation
 			return false;
 		}
 	}
-	}
+	
 	
 	public boolean valid (String[] command)
 	{
 
 		//int firstPar,secondPar,thirdPar;
 		boolean valid = true; //Assume it's a valid command to start with and do checks to confirm below
-		
-		Params paramcheck = this.new Params();
 		
 		if ( /* command.length > 1 && */ valid == true) 
 		{
@@ -58,7 +52,7 @@ public class Validation
 					} 		
 			} catch (NumberFormatException e)
 			{
-				System.out.println("Please enter the correct values for the parameters");
+				System.out.println("Enter the correct values for the parameters!");
 				System.out.println("Please type \"help "+command[0]+"\" if you need help with \""+command[0]+"\".");
 				valid = false;
 			}

@@ -11,24 +11,24 @@ public class PhotoShop {
 
 	private static Scanner input;
 
-//	enum Commands //set up an enumerated type for commands. This would only allow a fixed list and can be added to easily.
-//	{
-//		help,
-//		commands,
-//		lineto,
-//		moveto,
-//		circle,
-//		rect,
-//		clear,
-//		end;
-//	};
+	//	enum Commands //set up an enumerated type for commands. This would only allow a fixed list and can be added to easily.
+	//	{
+	//		help,
+	//		commands,
+	//		lineto,
+	//		moveto,
+	//		circle,
+	//		rect,
+	//		clear,
+	//		end;
+	//	};
 
 	public static void main(String[] args) {
 
 		String command;
 		input = new Scanner (System.in);
-//		GraphicsScreen g = new GraphicsScreen();
-		Draw execute = new Draw();
+		//		GraphicsScreen g = new GraphicsScreen();
+		Process execute = new Process();
 
 		System.out.println("Welcome to Photoshop!");
 		System.out.println("The graphical output is 500 unit wide and 400 units high by default.");
@@ -63,8 +63,9 @@ public class PhotoShop {
 				}
 
 			} while (userCommand.length < 5 == false);
-			
-			execute.Execute(userCommand); //Execute the 
+
+			//Execute the command!
+			execute.processCommand(userCommand);
 
 
 		} while (command.toLowerCase().equals("end") == false); 
@@ -72,7 +73,7 @@ public class PhotoShop {
 		//do..while loop ends when "end" is entered, it is case-insensitive: END, End, eNd all work
 		// .trim() is also used to remove any whitespaces after 'end' is typed (so if a user input 'end  ' - this will still exit)
 		System.out.println("Thank you for using the program!");
-//		g.close(); //this close the drawing frame window
+		//		g.close(); //this close the drawing frame window
 		input.close(); //close the text input as well
 	}
 }
