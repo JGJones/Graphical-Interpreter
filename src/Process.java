@@ -8,12 +8,11 @@ public class Process
 	GraphicsScreen g = new GraphicsScreen();
 	private int curX, curY;
 
-	protected class Run
+	private class Run
 	{
 
 		void Execute (String[] command)
 		{
-			//	Draw check = new Draw();
 			Validation check = new Validation();
 			Help helpcommand = new Help();
 
@@ -130,6 +129,14 @@ public class Process
 
 				break;
 
+			case "load" :
+				
+				if (command.length == 1)
+				{
+					System.out.println("Please enter a filename!");
+				}
+				
+				break;
 			case "clear" :
 
 				g.clear();
@@ -149,18 +156,6 @@ public class Process
 
 				break;
 
-				//		case "load" :
-				//
-				//			try
-				//			{
-				//				fileio.load(command[1]);
-				//			}catch (FileNotFoundException e)
-				//			{
-				//				System.out.println("Error 404! File not found! Make sure "+ command[1] +" does exist!");
-				//			}
-				//
-				//			break;
-
 			default :
 
 				System.out.println("No valid command entered");
@@ -174,9 +169,9 @@ public class Process
 
 	public void processCommand (String[] command)
 	{
-		Run execute = this.new Run();
+		Run execute = this.new Run(); //run a command using the private class above
 
-		if (command[0].toLowerCase().equals("load"))
+		if (command[0].toLowerCase().equals("load") && (command.length > 1)) // if command starts with load AND had additional parameters
 		{
 			Validation check = new Validation();
 			try
@@ -190,14 +185,12 @@ public class Process
 
 					line = s.nextLine().trim();		// read the next line of text from the file
 
-					//	System.out.println(line);	// output the line of text to the console
-
-					//	line = line.trim();
+					//	System.out.println(line);	// output the line of text to the console (for testing)
 
 					// split the text into multiple elements by using a space " ",
 					// as the separator and store in an array of String
 
-					userCommand = line.split(" "); //with thanks to Mark Dixon for his SimpleParser code to split text
+					userCommand = line.split(" "); // split text using a space " "
 
 //					if ( (userCommand.length > 4) || (check.valid(userCommand) == true))
 //					{
