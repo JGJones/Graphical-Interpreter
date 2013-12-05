@@ -11,18 +11,6 @@ public class PhotoShop {
 
 	private static Scanner input;
 
-	//	enum Commands //set up an enumerated type for commands. This would only allow a fixed list and can be added to easily.
-	//	{
-	//		help,
-	//		commands,
-	//		lineto,
-	//		moveto,
-	//		circle,
-	//		rect,
-	//		clear,
-	//		end;
-	//	};
-
 	public static void main(String[] args) {
 
 		String command;
@@ -48,7 +36,7 @@ public class PhotoShop {
 				// the loop exits if there are 3 words or less entered (ie lineto 54 34 is valid as is sdfg sadfd ewew)
 
 				command = input.nextLine();
-				command = command.trim();
+				command = command.toLowerCase().trim(); // remove leading and ending whitespace and convert all to lower case
 
 				// split the text into multiple elements by using a space " ",
 				// as the separator and store in an array of String
@@ -58,8 +46,8 @@ public class PhotoShop {
 				if ( userCommand.length > 4 )
 				{
 					System.out.println("Error! Too many parameters entered!");
-					System.out.println("Type commands for a list of all commands");
-					System.out.println("Type help <command> for instructions on a command");
+//					System.out.println("Type commands for a list of all commands");
+//					System.out.println("Type help <command> for instructions on a command");
 				}
 
 			} while (userCommand.length < 5 == false);
@@ -68,12 +56,11 @@ public class PhotoShop {
 			execute.processCommand(userCommand);
 
 
-		} while (command.toLowerCase().equals("end") == false); 
+		} while (command.equals("end") == false); 
 		// !(something) - with a ! in front of brackets is NOT so for the above it need to be FALSE to exit loop
 		//do..while loop ends when "end" is entered, it is case-insensitive: END, End, eNd all work
 		// .trim() is also used to remove any whitespaces after 'end' is typed (so if a user input 'end  ' - this will still exit)
 		System.out.println("Thank you for using the program!");
-		//		g.close(); //this close the drawing frame window
 		input.close(); //close the text input as well
 	}
 }

@@ -4,19 +4,20 @@ import java.util.Scanner;
 
 public class Process 
 {
-
-	GraphicsScreen g = new GraphicsScreen();
 	private int curX, curY;
 
-	private class Run
-	{
+	Validation check = new Validation();
+	GraphicsScreen g = new GraphicsScreen();
+	Run execute = this.new Run(); 
+	LoadCommand load = this.new LoadCommand();
 
+	private class Run // Execute the actual command and calls to the GraphicsScreen class for drawing
+	{
 		void Execute (String[] command)
 		{
-			Validation check = new Validation();
 			Help helpcommand = new Help();
 
-			switch (command[0].toLowerCase()) // run code based on what the first word is. If it's a valid command, it'll execute otherwise it's an error message
+			switch (command[0]) // run code based on what the first word is. If it's a valid command, it'll execute otherwise it's an error message
 			{
 
 			case "commands" :
@@ -46,7 +47,8 @@ public class Process
 
 			case "moveto" :
 
-				if ((check.paramCheck(command, 2) == true) && (check.valid(command) == true))
+				//if ((check.paramCheck(command, 2) == true) && (check.valid(command,0) == true))
+				if (check.commandcheck(command) == true)	
 				{
 					g.moveTo(Integer.parseInt(command[1]), Integer.parseInt(command[2]));
 
@@ -58,7 +60,7 @@ public class Process
 
 			case "lineto" :
 
-				if ((check.paramCheck(command, 2) == true) && (check.valid(command) == true))
+				if (check.commandcheck(command) == true)
 				{
 					g.lineTo(Integer.parseInt(command[1]), Integer.parseInt(command[2]));
 					curX = Integer.parseInt(command[1]);
@@ -68,7 +70,7 @@ public class Process
 
 			case "rect" :
 
-				if ((check.paramCheck(command, 2) == true) && (check.valid(command) == true))
+				if (check.commandcheck(command) == true)
 				{
 					g.Rect(Integer.parseInt(command[1]), Integer.parseInt(command[2]));
 				}
@@ -77,7 +79,7 @@ public class Process
 
 			case "fillrect" :
 
-				if ((check.paramCheck(command, 2) == true) && (check.valid(command) == true))
+				if (check.commandcheck(command) == true)
 				{
 					g.fillRect(Integer.parseInt(command[1]), Integer.parseInt(command[2]));
 				}
@@ -86,7 +88,7 @@ public class Process
 
 			case "circle" :
 
-				if ((check.paramCheck(command, 1) == true) && (check.valid(command) == true))
+				if (check.commandcheck(command) == true)
 
 				{
 					g.circle(Integer.parseInt(command[1]));
@@ -96,7 +98,7 @@ public class Process
 
 			case "fillcircle" :
 
-				if ((check.paramCheck(command, 1) == true) && (check.valid(command) == true))
+				if (check.commandcheck(command) == true)
 
 				{
 					g.fillCircle(Integer.parseInt(command[1]));
@@ -107,7 +109,7 @@ public class Process
 			case "pencolour" :
 
 
-				if ((check.paramCheck(command, 3) == true) && (check.valid(command) == true))
+				if (check.commandcheck(command) == true)
 
 				{
 					g.penColour(Integer.parseInt(command[1]), Integer.parseInt(command[2]), Integer.parseInt(command[3]));
@@ -119,27 +121,32 @@ public class Process
 
 				if ( command.length == 1 )
 				{
-					System.out.println("The current pen position is x: "+ curX + " and y: "+curY);
+					System.out.println("The current pen position is x: "+ curX + " and y: "+ curY);
 				} else
 				{
 					System.out.println("All input(s) entered after penPosition is ignored");
-					System.out.println("The current pen position is x: "+ curX + " and y: "+curY);
+					System.out.println("The current pen position is x: "+ curX + " and y: "+ curY);
 				}
 
 
 				break;
 
 			case "load" :
-				
+
 				if (command.length == 1)
 				{
 					System.out.println("Please enter a filename!");
+				} else
+				{
+					load.Execute(command);
 				}
-				
 				break;
+				
 			case "clear" :
 
 				g.clear();
+				curX = 0;
+				curY = 0;
 
 				break;
 
@@ -151,15 +158,27 @@ public class Process
 					System.out.println("Type end on its own to quit program. Does not end all life on planet.");
 				} else
 				{
-					g.close();
+					g.close(); //this close the drawing frame window
 				}
+
+				break;
+
+			case "moo" : // Easter egg - copied from apt-get moo!
+
+				System.out.println("		         (__)"); 
+				System.out.println("		         (oo)"); 
+				System.out.println("		   /------\\/"); 
+				System.out.println("		  / |    ||");   
+				System.out.println("		 *  /\\---/\\ ");
+				System.out.println("		    ~~   ~~  "); 
+				System.out.println("		....Have you mooed today?...");
 
 				break;
 
 			default :
 
-				System.out.println("No valid command entered");
-				System.out.println("Type commands for a list of all commands");
+				System.out.println("The command \""+ command[0] + "\" is not valid!");
+				System.out.println("Type \"commands\" for a list of all commands");
 				System.out.println("Type help <command> for instructions on a command");
 
 			}
@@ -167,115 +186,73 @@ public class Process
 		}
 	}
 
+	private class LoadCommand // read from a file and process for parameters if needed
+	{
+		void Execute (String[] command)
+		{
+				try
+				{
+					Scanner s = new Scanner(new File(command[1]));// create a scanner which scans from a file
+					String [] userCommand;	
+					String line;	// stores the each line of text read from the file
+					int x = 1;
+
+					if (command.length == 2)
+					{
+						while ( s.hasNext() )
+						{
+							line = s.nextLine().trim();		// read the next line of text from the file, remove leading and ending whitespace as well.
+
+							userCommand = line.toLowerCase().split(" "); // split text using a space " "
+
+							if (/*(check.valid(userCommand, 0) == false) ||*/ check.commandcheck(userCommand) == false)
+							{
+								System.out.println("Error at line "+ x +" in file \""+ command[1]+"\"!");
+								break;
+							}
+
+							x++;
+							execute.Execute(userCommand); // execute the line from file
+						}
+					}
+					else if (command.length == 4 )
+					{
+						if (check.commandcheck(command) == true)
+						{
+							while ( s.hasNext() )
+							{
+								line = s.nextLine().trim();		// read the next line of text from the file
+
+								userCommand = line.split(" "); // split text using a space " "
+
+								//							if (userCommand[0].toLowerCase() == "moveto" || userCommand[0].toLowerCase() == "lineto")
+								//							{
+								//								userCommand[1] = userCommand[1] + Integer.parseInt(command[2]);
+								//								userCommand[2] = userCommand[2] + command[3];
+								//								
+								//							}
+
+								execute.Execute(userCommand); // execute the line from file
+							}
+						}
+					}
+					else //if (command.length == 3)
+					{
+						System.out.println("You must have two parameters if using parameters for loading files");
+					}
+
+					s.close();
+
+				}catch (FileNotFoundException e)
+				{
+					System.out.println("Error 404! File not found! Make sure the file \""+ command[1] +"\" does exist!");
+				}
+
+		}
+	}
+
 	public void processCommand (String[] command)
 	{
-		Run execute = this.new Run(); //run a command using the private class above
-
-		if (command[0].toLowerCase().equals("load") && (command.length > 1)) // if command starts with load AND had additional parameters
-		{
-			Validation check = new Validation();
-			try
-			{
-				Scanner s = new Scanner(new File(command[1]));// create a scanner which scans from a file
-				String [] userCommand;	
-				String line;	// stores the each line of text read from the file
-				int n = 1;
-
-				while ( s.hasNext() ) {
-
-					line = s.nextLine().trim();		// read the next line of text from the file
-
-					//	System.out.println(line);	// output the line of text to the console (for testing)
-
-					// split the text into multiple elements by using a space " ",
-					// as the separator and store in an array of String
-
-					userCommand = line.split(" "); // split text using a space " "
-
-//					if ( (userCommand.length > 4) || (check.valid(userCommand) == true))
-//					{
-//						System.out.println("Error! Too many parameters entered at line" + n + "!");
-//
-//					}
-
-					execute.Execute(userCommand);
-					n++;
-
-				}
-				s.close();
-
-			}catch (FileNotFoundException e)
-			{
-				System.out.println("Error 404! File not found! Make sure "+ command[1] +" does exist!");
-			}
-
-		} else
-		{
-			execute.Execute(command);
-		}
-
-
-
-		/*		{
-			switch (command[0].toLowerCase())
-			{
-
-			case "commands" :
-
-				break;
-
-			case "help" :
-
-				break;
-
-			case "moveto" :
-
-				break;
-
-			case "lineto" :
-
-				break;
-
-			case "rect" :
-
-				break;
-
-			case "fillrect" :
-
-				break;
-
-			case "circle" :
-
-				break;
-
-			case "fillcircle" :
-
-				break;
-
-			case "pencolour" :
-
-				break;
-
-			case "penposition" :
-
-				break;
-
-			case "clear" :
-
-				break;
-
-			case "end" :
-
-				break;
-
-			case "load" :
-
-				break;
-
-			default :
-
-			}	
-		}
-		 */
+		execute.Execute(command);
 	}
 }
