@@ -16,7 +16,9 @@ public class Validation
 		"commands",		//10
 		"end",			//11
 		"help",			//12
-		"moo"			//13
+		"moo",			//13
+		"moverel",		//14
+		"linerel"		//15
 		};
 
 	int[] paramlist = //list of how many parameters each commands can have
@@ -34,7 +36,9 @@ public class Validation
 		0,	//		"commands",		//10
 		0,	//		"end",			//11
 		1,	//		"help",			//12
-		0	//		"moo"			//13
+		0,	//		"moo"			//13
+		2,	//		"moverel"		//14
+		2	//		"linerel"		//15
 		};
 	
 	public boolean commandcheck(String[] command)
