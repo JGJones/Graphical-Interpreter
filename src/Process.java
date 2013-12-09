@@ -4,7 +4,7 @@ import java.util.Scanner;
 
 public class Process 
 {
-	private int curX, curY;
+	int curX =0 , curY = 0 , RelX =0 , RelY =0;
 
 	Validation check = new Validation();
 	GraphicsScreen g = new GraphicsScreen();
@@ -13,9 +13,10 @@ public class Process
 
 	private class Run // Execute the actual command and calls to the GraphicsScreen class for drawing
 	{
-		void Execute (String[] command)
+		void Execute (String[] command, boolean Rel)
 		{
 			Help helpcommand = new Help();
+		
 
 			switch (command[0]) // run code based on what the first word is. If it's a valid command, it'll execute otherwise it's an error message
 			{
@@ -50,10 +51,28 @@ public class Process
 				//if ((check.paramCheck(command, 2) == true) && (check.valid(command,0) == true))
 				if (check.commandcheck(command) == true)	
 				{
-					g.moveTo(Integer.parseInt(command[1]), Integer.parseInt(command[2]));
+					if (Rel == false)
+					{
+						g.moveTo(Integer.parseInt(command[1]), Integer.parseInt(command[2]));
 
-					curX = Integer.parseInt(command[1]);
-					curY = Integer.parseInt(command[2]);
+						curX = Integer.parseInt(command[1]);
+						curY = Integer.parseInt(command[2]);
+					} else
+					{
+						int a,b;
+						
+						a = Integer.parseInt(command[1]);
+						b = Integer.parseInt(command[2]);
+						
+						a = a + RelX;
+						b = b + RelY;
+						
+						g.moveTo(a, b);
+						curX = a;
+						curY = b;
+								
+					}
+
 				}
 
 				break;
@@ -62,9 +81,26 @@ public class Process
 
 				if (check.commandcheck(command) == true)
 				{
-					g.lineTo(Integer.parseInt(command[1]), Integer.parseInt(command[2]));
-					curX = Integer.parseInt(command[1]);
-					curY = Integer.parseInt(command[2]);
+					if (Rel == false)
+					{
+						g.lineTo(Integer.parseInt(command[1]), Integer.parseInt(command[2]));
+						curX = Integer.parseInt(command[1]);
+						curY = Integer.parseInt(command[2]);
+					} else
+					{
+						int a,b;
+						
+						a = Integer.parseInt(command[1]);
+						b = Integer.parseInt(command[2]);
+						
+						a = a + RelX;
+						b = b + RelY;
+						
+						g.lineTo(a, b);
+						
+						curX = a;
+						curY = b;
+					}
 				}
 				break;
 
@@ -110,9 +146,14 @@ public class Process
 
 
 				if (check.commandcheck(command) == true)
-
 				{
-					g.penColour(Integer.parseInt(command[1]), Integer.parseInt(command[2]), Integer.parseInt(command[3]));
+					if ((Integer.parseInt(command[1]) >= 0) && (Integer.parseInt(command[1]) <= 255) && (Integer.parseInt(command[2]) >= 0) && (Integer.parseInt(command[2]) <= 255) && (Integer.parseInt(command[3]) >= 0) && (Integer.parseInt(command[3]) <= 255))
+					{
+						g.penColour(Integer.parseInt(command[1]), Integer.parseInt(command[2]), Integer.parseInt(command[3]));
+					} else
+					{
+						System.out.println("RGB values must be a number between 0-255");
+					}
 				}
 
 				break;
@@ -141,7 +182,7 @@ public class Process
 					load.Execute(command);
 				}
 				break;
-				
+
 			case "clear" :
 
 				g.clear();
@@ -188,71 +229,80 @@ public class Process
 
 	private class LoadCommand // read from a file and process for parameters if needed
 	{
+		boolean rel = false;
+
 		void Execute (String[] command)
 		{
-				try
-				{
-					Scanner s = new Scanner(new File(command[1]));// create a scanner which scans from a file
-					String [] userCommand;	
-					String line;	// stores the each line of text read from the file
-					int x = 1;
+			try
+			{
+				Scanner s = new Scanner(new File(command[1]));// create a scanner which scans from a file
+				String [] userCommand;	
+				String line;	// stores the each line of text read from the file
+				int x = 1;
 
-					if (command.length == 2)
+				if (command.length == 2)
+				{
+					while ( s.hasNext() )
 					{
+						line = s.nextLine().trim();		// read the next line of text from the file, remove leading and ending whitespace as well.
+
+						userCommand = line.toLowerCase().split(" "); // split text using a space " "
+
+						if (/*(check.valid(userCommand, 0) == false) ||*/ check.commandcheck(userCommand) == false)
+						{
+							System.out.println("Error at line "+ x +" in file \""+ command[1]+"\"!");
+							break;
+						}
+
+						x++;
+						execute.Execute(userCommand,rel); // execute the line from file
+					}
+				}
+				else if (command.length == 4 )
+				{
+					
+					if (check.commandcheck(command) == true)
+					{
+						
+						g.moveTo(Integer.parseInt(command[2]), Integer.parseInt(command[3])); //moveto $1 $2
+						rel = true;
+						
 						while ( s.hasNext() )
 						{
-							line = s.nextLine().trim();		// read the next line of text from the file, remove leading and ending whitespace as well.
+							line = s.nextLine().trim();		// read the next line of text from the file
 
 							userCommand = line.toLowerCase().split(" "); // split text using a space " "
-
 							if (/*(check.valid(userCommand, 0) == false) ||*/ check.commandcheck(userCommand) == false)
 							{
 								System.out.println("Error at line "+ x +" in file \""+ command[1]+"\"!");
 								break;
 							}
-
 							x++;
-							execute.Execute(userCommand); // execute the line from file
+
+							RelX = Integer.parseInt(command[2]);
+							RelY = Integer.parseInt(command[3]);
+
+							execute.Execute(userCommand,rel); // execute the line from file
 						}
 					}
-					else if (command.length == 4 )
-					{
-						if (check.commandcheck(command) == true)
-						{
-							while ( s.hasNext() )
-							{
-								line = s.nextLine().trim();		// read the next line of text from the file
-
-								userCommand = line.split(" "); // split text using a space " "
-
-								//							if (userCommand[0].toLowerCase() == "moveto" || userCommand[0].toLowerCase() == "lineto")
-								//							{
-								//								userCommand[1] = userCommand[1] + Integer.parseInt(command[2]);
-								//								userCommand[2] = userCommand[2] + command[3];
-								//								
-								//							}
-
-								execute.Execute(userCommand); // execute the line from file
-							}
-						}
-					}
-					else //if (command.length == 3)
-					{
-						System.out.println("You must have two parameters if using parameters for loading files");
-					}
-
-					s.close();
-
-				}catch (FileNotFoundException e)
-				{
-					System.out.println("Error 404! File not found! Make sure the file \""+ command[1] +"\" does exist!");
 				}
+				else //if (command.length == 3)
+				{
+					System.out.println("You must have two parameters if using parameters for loading files");
+				}
+
+				s.close();
+
+			}catch (FileNotFoundException e)
+			{
+				System.out.println("Error 404! File not found! Make sure the file \""+ command[1] +"\" does exist!");
+			}
 
 		}
 	}
 
 	public void processCommand (String[] command)
 	{
-		execute.Execute(command);
+		execute.Execute(command,false);
 	}
 }

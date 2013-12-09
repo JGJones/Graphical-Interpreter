@@ -105,6 +105,19 @@ public class Validation
 		return valid;
 	}
 
+	public boolean loadparam (String command)
+	{
+		
+		if (command.equals(commandlist[0]) || command.equals(commandlist[1])) //check if it match moveto or lineto
+		{
+			return true;
+		}else
+		{
+			return false;
+		}
+			
+	}
+	
 //	public boolean paramCheck (String[] params, int maxparam)
 //	{
 //
