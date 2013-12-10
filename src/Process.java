@@ -4,19 +4,20 @@ import java.util.Scanner;
 
 public class Process 
 {
-	int curX = 0 , curY = 0 , RelX = 0 , RelY = 0;
+	int curX = 0 , curY = 0;
 
 	Validation check = new Validation();
-	GraphicsScreen g = new GraphicsScreen();
+//	GraphicsScreen g = new GraphicsScreen();
+	LineLength g = new LineLength();
 	Run execute = this.new Run(); 
 	LoadCommand load = this.new LoadCommand();
 
-	private class Run // Execute the actual command and calls to the GraphicsScreen class for drawing
+	public class Run // Execute the actual command and calls to the GraphicsScreen class for drawing
 	{
 		void Execute (String[] command/*, boolean Rel*/)
 		{
 			Help helpcommand = new Help();
-
+			int RelX, RelY;
 
 			switch (command[0]) // run code based on what the first word is. If it's a valid command, it'll execute otherwise it's an error message
 			{
@@ -244,7 +245,8 @@ public class Process
 
 						userCommand = line.toLowerCase().split(" "); // split text using a space " "
 
-						if (/*(check.valid(userCommand, 0) == false) ||*/ check.commandcheck(userCommand) == false)
+						if (check.commandcheck(userCommand) == false)
+						// spits out an error message telling user at what line number the error is at
 						{
 							System.out.println("Error at line "+ x +" in file \""+ command[1]+"\"!");
 							break;
@@ -259,9 +261,6 @@ public class Process
 
 					if (check.commandcheck(command) == true)
 					{
-
-//						RelX = Integer.parseInt(command[2]);
-//						RelY = Integer.parseInt(command[3]);
 
 						while ( s.hasNext() )
 						{
@@ -298,7 +297,8 @@ public class Process
 								break;
 							}
 
-							if (/*(check.valid(userCommand, 0) == false) ||*/ check.commandcheck(userCommand) == false)
+							if (check.commandcheck(userCommand) == false)
+							// spits out an error message telling user at what line number the error is at
 							{
 								System.out.println("Error at line "+ x +" in file \""+ command[1]+"\"!");
 								break;
