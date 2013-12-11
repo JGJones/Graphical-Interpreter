@@ -55,7 +55,6 @@ public class PhotoShop {
 			//Execute the command!
 			execute.processCommand(userCommand);
 
-
 		} while (command.equals("end") == false); 
 		// !(something) - with a ! in front of brackets is NOT so for the above it need to be FALSE to exit loop
 		//do..while loop ends when "end" is entered, it is case-insensitive: END, End, eNd all work

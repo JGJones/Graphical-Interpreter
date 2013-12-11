@@ -42,6 +42,10 @@ public class GraphicsScreen {
 	 */
 	private final JFrame frame;
 
+	//set position of line length number in frame
+	protected int numX = 5, numY = 13, numWidth = 160, numHeight = 16;
+	protected int grey = 200; // R = G = B is always a shade of grey from white to black
+
 	/**
 	 * The current X position of the pen.
 	 */
@@ -51,8 +55,6 @@ public class GraphicsScreen {
 	 * The current Y position of the pen.
 	 */
 	private int penY;
-	
-	private int red = 0, green = 0, blue = 0;
 
 	/**
 	 * A list of commands which are used to paint the window when required.
@@ -96,7 +98,7 @@ public class GraphicsScreen {
 		 * @param g the graphics object to be used for drawing.
 		 */
 		void execute(Graphics g) {
-			
+
 			int radius;
 
 			switch( type ) {
@@ -126,7 +128,7 @@ public class GraphicsScreen {
 				g.drawOval(penX - radius, penY - radius, radius<<1, radius<<1);	// radius<<1 multiples the radius by 2 (same as radius * 2 but more efficient).
 
 				break;
-				
+
 			case FILLCIRCLE:
 				// store the radius in a variable since we will use it several times.
 				radius = args[0];
@@ -138,39 +140,30 @@ public class GraphicsScreen {
 
 			case PEN_COLOUR:
 
-				red = args[0];
-				green = args[1];
-				blue = args[2];
-
-				g.setColor(new Color(red, green, blue));
+				g.setColor(new Color(args[0], args[1], args[2]));
 
 				break;
-				
-			case RECT:
-				
-			 	//drawRect(int x, int y, int width, int height)
-				
-				g.drawRect(penX, penY, args[0], args[1]);
-				
-				break;
-				
-			case FILLRECT:
-				
-			 	//fillRect(int x, int y, int width, int height), filled in by current pen colour.
-				
-				g.fillRect(penX, penY, args[0], args[1]);
-				
-				break;
-			
+
 			case TEXT:
-				
-				g.setColor(new Color(190, 190, 190));
-				g.fillRect(15, 3, 200, 16);
-				g.setColor(new Color(0, 0, 0));
-				g.drawString("Line Length: ", 20, 15);
-				g.drawString(Integer.toString(args[0]), 100, 15);
-				g.setColor(new Color(red, green, blue));
-				
+
+				g.drawString(Integer.toString(args[0]), args[1], args[2]);
+
+				break;
+
+			case RECT:
+
+				//drawRect(int x, int y, int width, int height)
+
+				g.drawRect(penX, penY, args[0], args[1]);
+
+				break;
+
+			case FILLRECT:
+
+				//fillRect(int x, int y, int width, int height), filled in by current pen colour.
+
+				g.fillRect(penX, penY, args[0], args[1]);
+
 				break;
 			}
 		}
@@ -211,7 +204,7 @@ public class GraphicsScreen {
 
 			// For each command available call its execute() method.
 			synchronized(commands) {		// this ensures updates to the command list (by another thread) are blocked during iteration.
-				
+
 				for ( Command command : commands ) {
 
 					command.execute(g);	// this will make the command do the appropriate action. e.g. paint a line
@@ -219,7 +212,6 @@ public class GraphicsScreen {
 			}
 		}  
 	}
-
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// This is the public API
@@ -272,7 +264,7 @@ public class GraphicsScreen {
 
 		frame.repaint();
 	}
-	
+
 	/**
 	 * Draws a filled circle at the current pen position using the specified radius.<br/><br/>
 	 * 
@@ -289,7 +281,7 @@ public class GraphicsScreen {
 
 		frame.repaint();
 	}
-	
+
 	/**
 	 * Draws a rectangle at the current pen position using the specified width and height.<br/><br/>
 	 * 
@@ -339,13 +331,11 @@ public class GraphicsScreen {
 
 		frame.repaint();
 	}
-	
-	public void text(int num) {
 
-		int [] args = {num};
+	public void text(int num, int x, int y) {
 
-		// Add the appropriate command to the command list.
-		//commands.
+		int [] args = {num, x, y};
+
 		commands.add( new Command(CommandKind.TEXT, args) );
 
 		frame.repaint();
@@ -358,9 +348,6 @@ public class GraphicsScreen {
 
 		// No need for a clear command, just remove all previous commands and ask for a repaint.
 		commands.clear();
-		red = 0;
-		green = 0;
-		blue = 0;
 
 		frame.repaint();
 	}
@@ -383,16 +370,24 @@ public class GraphicsScreen {
 
 		//Schedule a job for the event-dispatching thread creating and showing this application's GUI.
 		javax.swing.SwingUtilities.invokeLater(new Runnable() {
-			public void run() {
-				
-				int[] args = {0};
+			public void run() {	
 
 				frame.setAlwaysOnTop(true);
 				frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 				frame.add(new GraphicsPanel());
 				frame.pack();
 				frame.setVisible(true);
-				commands.add( new Command(CommandKind.TEXT, args) );
+
+				// add the line length code at top of frame!
+
+				int[] i = new int[]{grey, grey, grey};
+				commands.add( new Command(CommandKind.PEN_COLOUR, i));
+				i = new int[]{numWidth, numHeight};
+				commands.add( new Command(CommandKind.FILLRECT, i) );
+				i = new int[]{0, 0, 0};
+				commands.add( new Command(CommandKind.PEN_COLOUR, i));
+				i = new int[]{0, numX, numY};
+				commands.add( new Command(CommandKind.TEXT, i) );
 			}
 		});
 	}
