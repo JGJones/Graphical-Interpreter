@@ -1,3 +1,9 @@
+# This draws a grid on the screen, no parameters is required.
+# Created by Karl Schmid
+
+# I have added a line at end of the code which simply load the circles file with parameters.
+
+
 moveto 100 0
 lineto 100 400
 moveto 200 0
@@ -18,4 +24,4 @@ moveto 0 400
 lineto 500 400
 moveto 0 500
 lineto 500 500
-load circles.txt 100 100
+load circles 100 100

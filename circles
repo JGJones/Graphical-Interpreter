@@ -1,3 +1,6 @@
+# This just draws a target made up of coloured circles. Use parameters to place anywhere
+# By Joseph Gwynne-Jones
+
 moveto $1 $2
 pencolour 255 0 0
 fillcircle 100

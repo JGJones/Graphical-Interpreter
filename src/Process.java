@@ -24,7 +24,7 @@ public class Process
 
 			case "commands" :
 
-				System.out.println("Commands: moveTo, lineTo, rect, fillrect, circle, fillcircle, penColour, penPosition, clear, load, commands, end");
+				System.out.println("Commands: moveTo, lineTo, moveRel, lineRel, rect, fillrect, circle, fillcircle, penColour, penPosition, clear, load, commands, end, moo");
 				System.out.println("Type \"help <command>\" for instructions on a command");
 
 				break;
@@ -245,6 +245,11 @@ public class Process
 
 						userCommand = line.toLowerCase().split(" "); // split text using a space " "
 
+						if (userCommand[0].startsWith("#") || userCommand[0].equals(""))
+						{
+							continue;
+						}
+						
 						if (check.commandcheck(userCommand) == false)
 							// spits out an error message telling user at what line number the error is at
 						{
@@ -267,6 +272,11 @@ public class Process
 							line = s.nextLine().trim();		// read the next line of text from the file
 
 							userCommand = line.toLowerCase().split(" "); // split text using a space " "
+							
+							if (userCommand[0].startsWith("#") || userCommand[0].equals(""))
+							{
+								continue;
+							}
 
 							switch (userCommand[0])
 							{
@@ -305,8 +315,6 @@ public class Process
 							}
 							x++;
 
-
-
 							execute.Execute(userCommand); // execute the line from file
 						}
 					}
@@ -328,6 +336,10 @@ public class Process
 
 	public void processCommand (String[] command)
 	{
-		execute.Execute(command);
+		if (!command[0].equals(""))
+		{
+			execute.Execute(command);	
+		}
+		
 	}
 }

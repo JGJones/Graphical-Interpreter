@@ -1,0 +1,29 @@
+# this is based on Karl's grid file, but all moveto and lineto are changed to moverel and linerel
+# the grid is drawn based on where the current x, y position is at time of loading file
+# However the next line can be commented out to allow for the use of parameters
+
+# moveto $1 $2
+
+moverel 100 0
+linerel 100 400
+moverel 200 0
+linerel 200 400
+moverel 300 0
+linerel 300 400
+moverel 400 0
+linerel 400 400
+moverel 500 0
+linerel 500 400
+moverel 0 100
+linerel 500 100
+moverel 0 200
+linerel 500 200
+moverel 0 300
+linerel 500 300
+moverel 0 400
+linerel 500 400
+moverel 0 500
+linerel 500 500
+
+# Comment out this if you want to load circles file, you must load gridP with parameters if you do so
+# load circles $1 $2

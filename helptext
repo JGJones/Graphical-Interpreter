@@ -98,6 +98,45 @@ end
 
 EOT
 
+moverel
+
+	moveRel <x> <y>
+	Moves the current pen position relative to the current <x> and <y> position as
+	given by the penposition command. This is best used for commands in a file rather
+	than manual input.
+	Example moveRel 200 100
+	Integars are only allowed. 120 is OK, 120.5 is not allowed
+
+EOT
+
+linerel
+
+	lineRel <x> <y>
+	Draws a line relative to the current <x> and <y> position as given by the
+	penposition command. This is best used for commands in a file rather than
+	manual input.
+	Example lineRel 200 100
+	Integars are only allowed. 120 is OK, 120.5 is not allowed
+
+EOT
+
+load
+
+	load <filename> $1 $2
+	Load a given file name. Parameters are optional. However if used, then they replace
+	where $1 and $2 is used within the file. Example:
+	
+	load file 100 200
+	
+	If the file contain moveTo $1 $2, this will become moveTo 100 200.
+	
+	If a file contains the use of $1 or $2 and no parameters is passed, the loading will stop.
+	The following commands are extremely useful for file loading: moveRel and LineRel.
+	Please type "help lineRel" or "help moveRel" for further information.
+
+EOT
+
+
 default 
 
 	No help is available for '"+ secondWord + "'.

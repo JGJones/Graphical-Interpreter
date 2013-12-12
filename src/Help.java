@@ -11,31 +11,8 @@ public class Help {
 
 	public void helptext (String command) throws FileNotFoundException 
 	{
-
-
 		Scanner s = new Scanner(new File("helptext"));	// create a scanner which scans from a file
 		Boolean exist = false; // if a command exists in the help text, it will be set to true.
-
-
-		//		while ( s.hasNext() ) 
-		//		{
-		//			if ( command.equals( s.next() )) 
-		//			{ 
-		//				while ( s.findInLine("EOT") == null ) 
-		//				{
-		//					String line = s.nextLine().trim();
-		//					if (!(line.equals("")))
-		//					{
-		//						System.out.println(line);
-		//					}
-		//					 
-		//				} 
-		//				
-		//				exist = true; //command exists so set to true
-		//				
-		//				break;
-		//			}
-		//		}
 
 		while ( s.hasNext() ) 
 		{
@@ -56,7 +33,6 @@ public class Help {
 				break;
 			}
 		}
-
 
 		if (exist == false) //the command isn't in the help text so display message below
 		{

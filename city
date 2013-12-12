@@ -1,0 +1,21 @@
+# Created by Richard Shepherd, this draw a beautifully realistic city landscape with a sun. 
+# this file is also used to check the use of #'s for commenting!
+# however it can only be used at start of lines only. 
+#
+# Comment out next line if you don't want to use parameters for this file.
+
+moveto $1 $2
+pencolour 100 149 237
+fillrect 500 400
+pencolour 255 165 0
+moverel 85 85
+fillcircle 40
+pencolour 211 211 211
+moverel 100 100
+fillrect 100 200
+pencolour 190 190 190
+moverel 200 50
+fillrect 100 250
+pencolour 0 0 0
+moverel 0 300
+fillrect 500 100
