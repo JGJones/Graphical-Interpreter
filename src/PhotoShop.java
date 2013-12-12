@@ -46,8 +46,6 @@ public class PhotoShop {
 				if ( userCommand.length > 4 )
 				{
 					System.out.println("Error! Too many parameters entered!");
-//					System.out.println("Type commands for a list of all commands");
-//					System.out.println("Type help <command> for instructions on a command");
 				}
 
 			} while (userCommand.length < 5 == false);
@@ -58,7 +56,6 @@ public class PhotoShop {
 		} while (command.equals("end") == false); 
 		// !(something) - with a ! in front of brackets is NOT so for the above it need to be FALSE to exit loop
 		//do..while loop ends when "end" is entered, it is case-insensitive: END, End, eNd all work
-		// .trim() is also used to remove any whitespaces after 'end' is typed (so if a user input 'end  ' - this will still exit)
 		System.out.println("Thank you for using the program!");
 		input.close(); //close the text input as well
 	}

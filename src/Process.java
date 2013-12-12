@@ -7,7 +7,7 @@ public class Process
 	int curX = 0 , curY = 0;
 
 	Validation check = new Validation();
-//	GraphicsScreen g = new GraphicsScreen();
+	//	GraphicsScreen g = new GraphicsScreen();
 	LineLength g = new LineLength();
 	Run execute = this.new Run(); 
 	LoadCommand load = this.new LoadCommand();
@@ -246,7 +246,7 @@ public class Process
 						userCommand = line.toLowerCase().split(" "); // split text using a space " "
 
 						if (check.commandcheck(userCommand) == false)
-						// spits out an error message telling user at what line number the error is at
+							// spits out an error message telling user at what line number the error is at
 						{
 							System.out.println("Error at line "+ x +" in file \""+ command[1]+"\"!");
 							break;
@@ -271,7 +271,7 @@ public class Process
 							switch (userCommand[0])
 							{
 							case "moveto" :
-								
+
 								if (userCommand[1].equals("$1"))
 								{
 									userCommand[1] = command[2];
@@ -280,11 +280,11 @@ public class Process
 								{
 									userCommand[2] = command[3];
 								}
-								
+
 								break;
 
 							case "lineto" :
-								
+
 								if (userCommand[1].equals("$1"))
 								{
 									userCommand[1] = command[2];
@@ -293,12 +293,12 @@ public class Process
 								{
 									userCommand[2] = command[3];
 								}
-								
+
 								break;
 							}
 
 							if (check.commandcheck(userCommand) == false)
-							// spits out an error message telling user at what line number the error is at
+								// spits out an error message telling user at what line number the error is at
 							{
 								System.out.println("Error at line "+ x +" in file \""+ command[1]+"\"!");
 								break;
